@@ -1,10 +1,12 @@
 package com.example.springbootcrud.controller;
 
-import com.example.springbootcrud.Util.Util;
+import com.example.springbootcrud.Util.ChkEmpty;
+import com.example.springbootcrud.Util.Crypto;
 import com.example.springbootcrud.data.dto.UserInfoDto;
 import com.example.springbootcrud.data.repository.MoreUserInfoRepository;
 import com.example.springbootcrud.data.repository.UserInfoRepository;
 import jakarta.transaction.Transactional;
+import jdk.jshell.execution.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Controller
 public class RegisterController {
@@ -38,17 +39,28 @@ public class RegisterController {
     public String signUpLogic(@ModelAttribute UserInfoDto userInfoDto,
                               @RequestParam String email,
                               @RequestParam String phone_number,
-                              @RequestParam String address) {
+                              @RequestParam String address_number,
+                              @RequestParam String roadAddress,
+                              @RequestParam String detailAddress,
+                              @RequestParam String extraAddress) {
 
-        if (!Util.isEmpty(userInfoDto.getId()) || !Util.isEmpty(userInfoDto.getNickname()) || !Util.isEmpty(userInfoDto.getPassword())) {
+        String addressNumber = ChkEmpty.isEmpty(address_number) ? "" : address_number;
+        String RoadAddress = ChkEmpty.isEmpty(roadAddress) ? "" : roadAddress;
+        String DetailAddress = ChkEmpty.isEmpty(detailAddress) ? "" : detailAddress;
+        String ExtraAddress = ChkEmpty.isEmpty(extraAddress) ? "" : extraAddress;
+
+        String address = addressNumber + RoadAddress + DetailAddress + ExtraAddress;
+
+        if (!ChkEmpty.isEmpty(userInfoDto.getId()) || !ChkEmpty.isEmpty(userInfoDto.getNickname()) || !ChkEmpty.isEmpty(userInfoDto.getPassword())) {
             String Duplicate_id = userInfoRepo.SelectUserId(userInfoDto.getId());
-            if (Util.isEmpty(Duplicate_id)) {
-                userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), userInfoDto.getPassword(), date);
+            if (ChkEmpty.isEmpty(Duplicate_id)) {
+                String encodedPassword = Crypto.cncode(userInfoDto.getPassword());
+                userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date);
                 moreUserInfoRepo.InsertUserInfo(userInfoDto.getId(), email, phone_number, address,date);
 
                 LOGGER.info("id -> {}", userInfoDto.getId());
                 LOGGER.info("nickname -> {}", userInfoDto.getNickname());
-                LOGGER.info("password -> {}", userInfoDto.getPassword());
+                LOGGER.info("password -> {}", encodedPassword);
                 LOGGER.info("reg_date -> {}", date);
                 LOGGER.info("email -> {}", email);
                 LOGGER.info("phone_number -> {}", phone_number);

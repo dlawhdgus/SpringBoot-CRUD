@@ -18,11 +18,69 @@
             <legend>선택 항목</legend>
             <input type="email" placeholder="이메일" name="email"><br>
             <input type="tel" placeholder="전화번호" name="phone_number"><br>
-            <input type="text" placeholder="주소" name="address"><br>
+            <!-- daum address api -->
+            <input type="text" id="address_number" placeholder="우편번호" name="address_number">
+            <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+            <input type="text" id="roadAddress" placeholder="도로명주소" name="roadAddress">
+            <input type="text" id="jibunAddress" placeholder="지번주소" name="jibunAddress">
+            <span id="guide" style="color:#999; display:none"></span>
+            <input type="text" id="detailAddress" placeholder="상세주소" name="detailAddress">
+            <input type="text" id="extraAddress" placeholder="참고항목" name="extraAddress"><br>
         </fieldset>
         <button type="submit">회원가입</button>
     </form>
 
     <a href="/index">메인으로</a> | <a href="/login">로그인</a>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        //https://postcode.map.daum.net/guide#usage
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    var roadAddr = data.roadAddress
+                    var extraRoadAddr = ''
+
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraRoadAddr += data.bname
+                    }
+
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName)
+                    }
+
+                    if (extraRoadAddr !== '') {
+                        extraRoadAddr = ' (' + extraRoadAddr + ')'
+                    }
+
+                    document.getElementById('address_number').value = data.zonecode
+                    document.getElementById("roadAddress").value = roadAddr
+                    document.getElementById("jibunAddress").value = data.jibunAddress
+
+                    if (roadAddr !== '') {
+                        document.getElementById("extraAddress").value = extraRoadAddr
+                    } else {
+                        document.getElementById("extraAddress").value = ''
+                    }
+
+                    var guideTextBox = document.getElementById("guide")
+
+                    if (data.autoRoadAddress) {
+                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr
+                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')'
+                        guideTextBox.style.display = 'block'
+
+                    } else if (data.autoJibunAddress) {
+                        var expJibunAddr = data.autoJibunAddress
+                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')'
+                        guideTextBox.style.display = 'block'
+                    } else {
+                        guideTextBox.innerHTML = ''
+                        guideTextBox.style.display = 'none'
+                    }
+                }
+            }).open()
+        }
+    </script>
 </body>
 </html>
