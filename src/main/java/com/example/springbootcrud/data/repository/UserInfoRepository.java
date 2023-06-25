@@ -1,5 +1,6 @@
 package com.example.springbootcrud.data.repository;
 
+import com.example.springbootcrud.data.dto.LoginDto;
 import com.example.springbootcrud.data.entity.UserInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +20,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Intege
     void InsertUserInfo(String id, String nickname, String password, String reg_date);
 
     @Query("select u.id, u.password from UserInfoEntity u where u.id = :id")
-    List<UserInfoEntity> SelectUserId(String id);
+    String SelectUserId(String id);
 
 
 }
