@@ -2,11 +2,11 @@ package com.example.springbootcrud.controller;
 
 import com.example.springbootcrud.Util.ChkEmpty;
 import com.example.springbootcrud.Util.Crypto;
-import com.example.springbootcrud.data.dto.UserInfoDto;
+import com.example.springbootcrud.data.dto.RegUserInfoDto;
+import com.example.springbootcrud.data.entity.UserInfoEntity;
 import com.example.springbootcrud.data.repository.MoreUserInfoRepository;
 import com.example.springbootcrud.data.repository.UserInfoRepository;
 import jakarta.transaction.Transactional;
-import jdk.jshell.execution.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class RegisterController {
@@ -36,7 +39,7 @@ public class RegisterController {
 
     @PostMapping(value = "/sign_up", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @Transactional
-    public String signUpLogic(@ModelAttribute UserInfoDto userInfoDto,
+    public String signUpLogic(@ModelAttribute RegUserInfoDto userInfoDto,
                               @RequestParam String email,
                               @RequestParam String phone_number,
                               @RequestParam String address_number,
@@ -52,26 +55,28 @@ public class RegisterController {
         String address = addressNumber + RoadAddress + DetailAddress + ExtraAddress;
 
         if (!ChkEmpty.isEmpty(userInfoDto.getId()) || !ChkEmpty.isEmpty(userInfoDto.getNickname()) || !ChkEmpty.isEmpty(userInfoDto.getPassword())) {
-            String Duplicate_id = userInfoRepo.SelectUserId(userInfoDto.getId());
-            if (ChkEmpty.isEmpty(Duplicate_id)) {
-                String encodedPassword = Crypto.cncode(userInfoDto.getPassword());
-                userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date);
-                moreUserInfoRepo.InsertUserInfo(userInfoDto.getId(), email, phone_number, address,date);
+            List<UserInfoEntity> duplicateId = userInfoRepo.SelectUserId(userInfoDto.getId());
 
-                LOGGER.info("id -> {}", userInfoDto.getId());
-                LOGGER.info("nickname -> {}", userInfoDto.getNickname());
-                LOGGER.info("password -> {}", encodedPassword);
-                LOGGER.info("reg_date -> {}", date);
-                LOGGER.info("email -> {}", email);
-                LOGGER.info("phone_number -> {}", phone_number);
-                LOGGER.info("address -> {}", address);
-
-                return "redirect:/login";
-            } else {
-                LOGGER.error("아이디 중복 \n 다른 아이디를 사용하세요");
-
+            LOGGER.info("{}", duplicateId);
+//            if (ChkEmpty.isEmpty(Duplicate_id)) {
+//                String encodedPassword = Crypto.cncode(userInfoDto.getPassword());
+//                userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date);
+//                moreUserInfoRepo.InsertUserInfo(userInfoDto.getId(), email, phone_number, address,date);
+//
+//                LOGGER.info("id -> {}", userInfoDto.getId());
+//                LOGGER.info("nickname -> {}", userInfoDto.getNickname());
+//                LOGGER.info("password -> {}", encodedPassword);
+//                LOGGER.info("reg_date -> {}", date);
+//                LOGGER.info("email -> {}", email);
+//                LOGGER.info("phone_number -> {}", phone_number);
+//                LOGGER.info("address -> {}", address);
+//
+//                return "redirect:/login";
+//            } else {
+//                LOGGER.error("아이디 중복 \n 다른 아이디를 사용하세요");
+//
                 return "redirect:/sign_up";
-            }
+//            }
         } else {
             LOGGER.error("필수항목을 입력해주세요");
 

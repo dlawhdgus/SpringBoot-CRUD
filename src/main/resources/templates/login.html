@@ -7,9 +7,11 @@
 </head>
 <body>
   <h1 id="title">SpringBoot-CRUD</h1>
-  <input autofocus placeholder="아이디" type="text"><br>
-  <input placeholder="비밀번호" type="password"><br>
-  <button type="submit">로그인</button>
+  <form action="/login" method="post">
+      <input autofocus placeholder="아이디" type="text" name="id"><br>
+      <input placeholder="비밀번호" type="password" name="password"><br>
+      <button type="submit">로그인</button><br>
+  </form>
   <a href="/index">메인으로</a> | <a href="/sign_up">회원가입</a>
 </body>
 </html>
