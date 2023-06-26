@@ -47,13 +47,7 @@ public class LoginController {
 
                 session.setAttribute("jwt", jwt);
 
-                //get JsonWebToken
-                Object sessionId = session.getAttribute("jwt");
-
-                String DecodeJwt = jwtDecode.Decode(sessionId.toString());
-                LOGGER.info("{}", DecodeJwt);
-
-                return "redirect:/index";
+                return "redirect:/mypage";
             } else {
                 LOGGER.error("비밀번호를 확인해주세요.");
 

@@ -60,16 +60,9 @@ public class RegisterController {
             if (ChkEmpty.isEmpty(duplicateId)) {
 
                 String encodedPassword = Crypto.encode(userInfoDto.getPassword());
-                userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date);
+                char flag = 'u';
+                userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date, flag);
                 moreUserInfoRepo.InsertUserInfo(userInfoDto.getId(), email, phone_number, address,date);
-
-                LOGGER.info("id -> {}", userInfoDto.getId());
-                LOGGER.info("nickname -> {}", userInfoDto.getNickname());
-                LOGGER.info("password -> {}", encodedPassword);
-                LOGGER.info("reg_date -> {}", date);
-                LOGGER.info("email -> {}", email);
-                LOGGER.info("phone_number -> {}", phone_number);
-                LOGGER.info("address -> {}", address);
 
                 return "redirect:/login";
             } else {

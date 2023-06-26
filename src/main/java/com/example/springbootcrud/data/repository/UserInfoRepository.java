@@ -9,18 +9,22 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Integer> {
 
     @Modifying
-    @Query(value = "INSERT INTO user_info (id, nickname, password, reg_date)" +
-            "VALUES (:id, :nickname, :password, :reg_date)", nativeQuery = true)
-    void InsertUserInfo(String id, String nickname, String password, String reg_date);
+    @Query(value = "INSERT INTO user_info (id, nickname, password, reg_date, flag)" +
+            "VALUES (:id, :nickname, :password, :reg_date, :flag)", nativeQuery = true)
+    void InsertUserInfo(String id, String nickname, String password, String reg_date, char flag);
 
     @Query("select u.id, u.password from UserInfoEntity u where u.id = :id")
     String SelectUserId(String id);
+
+    @Query("select u from UserInfoEntity u inner join MoreUserInfoEntity m on u.id = m.id where u.id = :id")
+    Collection<UserInfoEntity> UserInfo(String id);
 
 
 }

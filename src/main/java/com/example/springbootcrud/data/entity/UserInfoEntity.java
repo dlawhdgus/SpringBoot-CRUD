@@ -14,4 +14,5 @@ public class UserInfoEntity {
     private String nickname;
     private String password;
     private String reg_date;
+    private char flag;
 }
