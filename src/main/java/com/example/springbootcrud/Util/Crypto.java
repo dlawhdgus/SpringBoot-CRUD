@@ -9,8 +9,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class Crypto {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Crypto.class);
-
     public static String encode(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
