@@ -16,4 +16,5 @@ public class MoreUserInfoEntity {
     private String phone_number;
     private String address;
     private String reg_date;
+
 }

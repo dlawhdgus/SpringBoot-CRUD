@@ -23,7 +23,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Intege
     @Query("select u.id, u.password from UserInfoEntity u where u.id = :id")
     String SelectUserId(String id);
 
-    @Query("select u from UserInfoEntity u inner join MoreUserInfoEntity m on u.id = m.id where u.id = :id")
+    @Query("select u from UserInfoEntity u where u.id = :id")
     Collection<UserInfoEntity> UserInfo(String id);
 
 

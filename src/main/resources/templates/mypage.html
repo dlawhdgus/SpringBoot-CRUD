@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>My-Page</title>
+    <link rel="stylesheet" type="text/css" href="/css/mypage.css" />
 </head>
 <body>
+    <fieldset style="width: 1000px">
+        <legend class="sub_title" th:text="${name}"></legend>
+        <p><span class="sub_title">nickname</span> : <span th:text="${nickname}"></span></p>
+        <p><span class="sub_title">email</span> : <span th:text="${email}"></span></p>
+        <p><span class="sub_title">phone_number</span> : <span th:text="${phone_number}"></span></p>
+        <p><span class="sub_title">address</span> : <span th:text="${address}"></span></p>
+    </fieldset>
+
+    <form id="go_to_index" action="/index" method="get"></form>
+    <form id="edit_user" action="/edit" method="get"></form>
+    <form id="delete_user" action="/delete" method="post">
+
+    </form>
+    <a onclick="document.getElementById('go_to_index').submit();">메인으로</a>
+    <a onclick="document.getElementById('edit_user').submit();">수정</a>
+    <a onclick="document.getElementById('delete_user').submit();">회원탈퇴</a>
 
 </body>
 </html>
