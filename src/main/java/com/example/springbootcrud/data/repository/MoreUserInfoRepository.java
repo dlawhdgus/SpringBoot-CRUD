@@ -16,4 +16,8 @@ public interface MoreUserInfoRepository extends JpaRepository<MoreUserInfoEntity
 
     @Query("select u from MoreUserInfoEntity u where u.id = :id")
     Collection<MoreUserInfoEntity> MoreUserInfo(String id);
+
+    @Modifying
+    @Query("update MoreUserInfoEntity u set u.email = :email, u.phone_number = :phone_number, u.address = :address where u.id = :id")
+    int UpadteMoreUserInfo(String id, String email, String phone_number, String address);
 }

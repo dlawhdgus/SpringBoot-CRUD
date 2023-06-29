@@ -56,7 +56,7 @@ public class MypageController {
         String phone_number = MoreUserInfo.getPhone_number();
         String address = MoreUserInfo.getAddress();
 
-        model.addAttribute("name", id);
+        model.addAttribute("id", id);
         model.addAttribute("nickname", nickname);
         model.addAttribute("email", email);
         model.addAttribute("phone_number", phone_number);
