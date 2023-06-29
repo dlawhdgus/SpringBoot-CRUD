@@ -9,10 +9,7 @@ public class IndexController {
     @GetMapping("/index")
     public String IndexView() { return "index.html"; }
 
-    @GetMapping("/login")
-    public String LoginView() {
-        return "login.html";
-    }
+
 
     @GetMapping("/sign_up")
     public String SignUpView() {
