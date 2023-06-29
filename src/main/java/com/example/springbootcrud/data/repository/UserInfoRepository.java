@@ -25,4 +25,8 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Intege
     @Modifying
     @Query("update UserInfoEntity u set u.nickname = :nickname where u.id = :id")
     int UpadteUserInfo(String id, String nickname);
+
+    @Modifying
+    @Query("delete from UserInfoEntity u where u.id = :id")
+    int DeleteUser(String id);
 }

@@ -5,3 +5,7 @@
 a:hover {
     cursor: pointer;
 }
+
+#title {
+    text-align: center;
+}

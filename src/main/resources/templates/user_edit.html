@@ -5,21 +5,21 @@
     <title>UserEdit-Page</title>
     <link rel="stylesheet" type="text/css" href="/css/user_edit.css" />
 </head>
-<body>
-<form id="edit_user" action="/edit_Logic" method="post">
-    <fieldset style="width: 1000px">
-        <legend class="sub_title" th:text="${id}"></legend>
-        <input type="hidden" th:value="${id}" name="id" />
-        <p><span class="sub_title">nickname</span> : <input th:value="${nickname}" name="nickname" /></p>
-        <p><span class="sub_title">email</span> : <input th:value="${email}" name="email" /></p>
-        <p><span class="sub_title">phone_number</span> : <input th:value="${phone_number}" name="phone_number" /></p>
-        <p><span class="sub_title">address</span> : <textarea th:value="${address}" th:text="${address}" name="address"></textarea></p>
-    </fieldset>
-</form>
+    <body>
+    <h1 id="title">SpringBoot-CRUD</h1>
+    <form id="edit_user" action="/edit_Logic" method="post">
+        <fieldset style="width: 1000px">
+            <legend class="sub_title" th:text="${id}"></legend>
+            <input type="hidden" th:value="${id}" name="id" />
+            <p><span class="sub_title">nickname</span> : <input th:value="${nickname}" name="nickname" /></p>
+            <p><span class="sub_title">email</span> : <input th:value="${email}" name="email" /></p>
+            <p><span class="sub_title">phone_number</span> : <input th:value="${phone_number}" name="phone_number" /></p>
+            <p><span class="sub_title">address</span> : <textarea th:value="${address}" th:text="${address}" name="address"></textarea></p>
+        </fieldset>
+    </form>
 
-<!--<form id="editPage" action="/edit" method="get"></form></form>-->
-<a onclick="document.getElementById('edit_user').submit();">수정</a>
-<!--<a onclick="document.getElementById('editPage').submit();">뒤로가기</a>-->
-
+    <!--<form id="editPage" action="/edit" method="get"></form></form>-->
+    <a onclick="document.getElementById('edit_user').submit();">수정</a>
+    <!--<a onclick="document.getElementById('editPage').submit();">뒤로가기</a>-->
 </body>
 </html>

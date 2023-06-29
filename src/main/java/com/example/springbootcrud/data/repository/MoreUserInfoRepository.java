@@ -20,4 +20,8 @@ public interface MoreUserInfoRepository extends JpaRepository<MoreUserInfoEntity
     @Modifying
     @Query("update MoreUserInfoEntity u set u.email = :email, u.phone_number = :phone_number, u.address = :address where u.id = :id")
     int UpadteMoreUserInfo(String id, String email, String phone_number, String address);
+
+    @Modifying
+    @Query("delete MoreUserInfoEntity u where u.id = :id")
+    int DeleteMoreInfo(String id);
 }

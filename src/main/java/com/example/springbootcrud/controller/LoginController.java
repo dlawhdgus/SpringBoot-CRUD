@@ -33,10 +33,9 @@ public class LoginController {
 //    // logic -> getid, id를 db에 조회 후 pw받아서 pwMatch -> jwt or session -> userMypage
     @PostMapping(value = "/login")
     public String loginLogic(LoginDto loginDto, HttpSession session) {
-
-        if(!ChkEmpty.isEmpty(loginDto.id)) {
+        String userInfo = userInfoRepo.SelectUserId(loginDto.id);
+        if(!ChkEmpty.isEmpty(userInfo)) {
             //ChkPassword
-            String userInfo = userInfoRepo.SelectUserId(loginDto.id);
             String userArray[] = StringUtils.split(userInfo,",");
 
             if (Crypto.PasswordMatch(loginDto.getPassword(), userArray[1])) {

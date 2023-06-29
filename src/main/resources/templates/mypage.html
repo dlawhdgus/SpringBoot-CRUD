@@ -6,6 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/css/mypage.css" />
 </head>
 <body>
+    <h1 id="title">SpringBoot-CRUD</h1>
+    <form id="logoout" action="/logout" method="post"></form>
+    <div id="login-form">
+        <a onclick="document.getElementById('logoout').submit();">로그아웃</a><br>
+    </div>
     <fieldset style="width: 1000px">
         <legend class="sub_title" th:text="${id}"></legend>
         <p><span class="sub_title">nickname</span> : <span th:text="${nickname}"></span></p>
@@ -16,9 +21,7 @@
 
     <form id="go_to_index" action="/index" method="get"></form>
     <form id="edit_user" action="/edit" method="get"></form>
-    <form id="delete_user" action="/delete" method="post">
-
-    </form>
+    <form id="delete_user" action="/delete" method="post"></form>
     <a onclick="document.getElementById('go_to_index').submit();">메인으로</a>
     <a onclick="document.getElementById('edit_user').submit();">수정</a>
     <a onclick="document.getElementById('delete_user').submit();">회원탈퇴</a>
