@@ -19,10 +19,10 @@
         <span class="sub_title">전화번호</span> : <span th:text="${data[4]}"></span><br>
         <span class="sub_title">주소</span> : <span th:text="${data[5]}"></span><br>
         <span class="sub_title">가입날짜</span> : <span th:text="${data[2]}"></span><br>
-        <form id="edit_user" action="/adminEdit" method="get">
+        <form th:action="@{/adminEdit}" method="get">
             <input type="hidden" th:value="${data[0]}" name="id" />
+            <button type="submit">수정</button>
         </form>
-        <a onclick="document.getElementById('edit_user').submit();">수정</a>
     </fieldset>
     <div id="pagination_form">
         <span th:each="pageNumber : ${pageNumbers}">

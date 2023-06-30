@@ -112,6 +112,7 @@ public class UpdateController {
 
     @GetMapping("/adminEdit")
     public String userEdit(Model model, @RequestParam String id) {
+        LOGGER.info("{}",id);
         Collection<UserInfoEntity> userInfo = userInfoRepo.UserInfo(id);
         Collection<MoreUserInfoEntity> moreUserInfo = moreUserInfoRepo.MoreUserInfo(id);
 
