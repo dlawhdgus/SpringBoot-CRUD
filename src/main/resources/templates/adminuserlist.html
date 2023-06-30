@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UserList-Page</title>
+    <link rel="stylesheet" type="text/css" href="/css/adminuserlist.css" />
+</head>
+<body>
+<h1 id="title">SpringBoot-CRUD</h1>
+<form id="logout" action="/logout" method="post"></form>
+<div id="login-form">
+    <a href="/index">메인으로</a> |
+    <a onclick="document.getElementById('logout').submit();">로그아웃</a><br>
+</div>
+<fieldset th:each="data, iterStat : ${userData}">
+    <legend th:text="${data[0]}"></legend>
+    <div class="name">이름 : <span th:text="${data[1]}"></span></div>
+    <div class="email">이메일 : <span th:text="${data[3]}"></span></div>
+    <div class="address">주소 : <span th:text="${data[5]}"></span></div>
+    <div class="phone_num">전화번호 : <span th:text="${data[4]}"></span></div>
+    <div class="reg_date">가입일자 : <span th:text="${data[2]}"></span></div>
+    <form th:id="'edit_user_' + ${iterStat.index}" action="/adminEdit" method="get">
+        <input type="hidden" th:value="${data[0]}" th:name="id" />
+    </form>
+    <a onclick="window.location.href = '/adminEdit?id=' + ${userData[iterStat.index][0]};">수정</a>
+</fieldset>
+
+
+<div id="pagination_form">
+    <span th:each="pageNumber : ${pageNumbers}">
+        <a id="pagination" th:href="@{'/admin?page=' + ${pageNumber} + '&amp;pageSize=5'}" th:text="${pageNumber}"></a>
+    </span>
+</div>
+</body>
+</html>

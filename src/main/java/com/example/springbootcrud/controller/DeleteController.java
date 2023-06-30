@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DeleteController {
@@ -31,20 +32,28 @@ public class DeleteController {
 
     @PostMapping("/delete")
     @Transactional
-    public String deleteUser(HttpSession session) {
+    public String deleteUser(HttpSession session,
+                             @RequestParam String id) {
         Object sessionId = session.getAttribute("jwt");
+        if(sessionId.equals("ovioivo")) {
+            JwtDecode jwtDecode = new JwtDecode(jwtConfig);
+            String userId = jwtDecode.Decode(sessionId.toString());
 
-        JwtDecode jwtDecode = new JwtDecode(jwtConfig);
-        String userId = jwtDecode.Decode(sessionId.toString());
 
+            LOGGER.info("id : {}", userId);
 
-        LOGGER.info("id : {}", userId);
+            int deleteUserInfo = userInfoRepository.DeleteUser(userId);
+            int deleteMoreInfo = moreUserInfoRepository.DeleteMoreInfo(userId);
 
-        int deleteUserInfo = userInfoRepository.DeleteUser(userId);
-        int deleteMoreInfo = moreUserInfoRepository.DeleteMoreInfo(userId);
+            session.invalidate();
 
-        session.invalidate();
+            return "redirect:/index";
+        } else {
+            LOGGER.info("deleteLogic Id : {}", id);
+            int deleteUserInfo = userInfoRepository.DeleteUser(id);
+            int deleteMoreInfo = moreUserInfoRepository.DeleteMoreInfo(id);
 
-        return "redirect:/index";
+            return "redirect:/admin?page=1&pageSize=5";
+        }
     }
 }

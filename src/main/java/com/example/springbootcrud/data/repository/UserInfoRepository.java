@@ -1,12 +1,15 @@
 package com.example.springbootcrud.data.repository;
 
 import com.example.springbootcrud.data.entity.UserInfoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Integer> {
@@ -19,6 +22,9 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Intege
     @Query("select u.id, u.password from UserInfoEntity u where u.id = :id")
     String SelectUserId(String id);
 
+    @Query("select u.flag from UserInfoEntity u where u.id = :id")
+    String GetUserFlag(String id);
+
     @Query("select u from UserInfoEntity u where u.id = :id")
     Collection<UserInfoEntity> UserInfo(String id);
 
@@ -29,4 +35,8 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Intege
     @Modifying
     @Query("delete from UserInfoEntity u where u.id = :id")
     int DeleteUser(String id);
+
+    @Query("select u.id, u.nickname, u.reg_date, m.email, m.phone_number, m.address from UserInfoEntity u inner join MoreUserInfoEntity m on u.id = m.id where u.flag ='u'")
+    Page<Objects[]> getUserData(Pageable pageable);
+
 }

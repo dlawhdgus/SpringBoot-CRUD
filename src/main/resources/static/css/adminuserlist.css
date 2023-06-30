@@ -1,0 +1,24 @@
+#title {
+    text-align: center;
+}
+
+#pagination_form {
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+#pagination {
+    font-size: 20px;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+#login-form {
+    text-align: right;
+}

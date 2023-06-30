@@ -48,27 +48,33 @@ public class LoginController {
             JwtDecode jwtDecode = new JwtDecode(jwtConfig);
             String decodeJwt = jwtDecode.Decode(sessionId.toString());
 
-            Collection<UserInfoEntity> userInfo = userInfoRepo.UserInfo(decodeJwt);
-            Collection<MoreUserInfoEntity> moreUserInfo = moreUserInfoRepo.MoreUserInfo(decodeJwt);
-            LOGGER.info("{}", userInfo);
-            LOGGER.info("{}", moreUserInfo);
+            if (decodeJwt.equals("ovioivo")) {
+                LOGGER.info("hello admin");
 
-            UserInfoEntity userInfoEntity = userInfo.iterator().next();
-            MoreUserInfoEntity moreUserInfoEntity = moreUserInfo.iterator().next();
+                return "redirect:/admin?page=1&pageSize=5";
+            } else {
+                Collection<UserInfoEntity> userInfo = userInfoRepo.UserInfo(decodeJwt);
+                Collection<MoreUserInfoEntity> moreUserInfo = moreUserInfoRepo.MoreUserInfo(decodeJwt);
+                LOGGER.info("{}", userInfo);
+                LOGGER.info("{}", moreUserInfo);
 
-            String id = userInfoEntity.getId();
-            String nickname = userInfoEntity.getNickname();
-            String email = moreUserInfoEntity.getEmail();
-            String phoneNumber = moreUserInfoEntity.getPhone_number();
-            String address = moreUserInfoEntity.getAddress();
+                UserInfoEntity userInfoEntity = userInfo.iterator().next();
+                MoreUserInfoEntity moreUserInfoEntity = moreUserInfo.iterator().next();
 
-            model.addAttribute("id", id);
-            model.addAttribute("nickname", nickname);
-            model.addAttribute("email", email);
-            model.addAttribute("phone_number", phoneNumber);
-            model.addAttribute("address", address);
+                String id = userInfoEntity.getId();
+                String nickname = userInfoEntity.getNickname();
+                String email = moreUserInfoEntity.getEmail();
+                String phoneNumber = moreUserInfoEntity.getPhone_number();
+                String address = moreUserInfoEntity.getAddress();
 
-            return "mypage.html";
+                model.addAttribute("id", id);
+                model.addAttribute("nickname", nickname);
+                model.addAttribute("email", email);
+                model.addAttribute("phone_number", phoneNumber);
+                model.addAttribute("address", address);
+
+                return "mypage.html";
+            }
         } else {
             return "login.html";
         }
@@ -81,7 +87,6 @@ public class LoginController {
         if(!ChkEmpty.isEmpty(userInfo)) {
             //ChkPassword
             String userArray[] = StringUtils.split(userInfo,",");
-
             if (Crypto.PasswordMatch(loginDto.getPassword(), userArray[1])) {
                 JwtBuild jwtBuild = new JwtBuild(jwtConfig);
                 JwtDecode jwtDecode = new JwtDecode(jwtConfig);
@@ -89,8 +94,14 @@ public class LoginController {
                 String jwt = jwtBuild.Build(userArray[0]);
 
                 session.setAttribute("jwt", jwt);
+                String userFlag = userInfoRepo.GetUserFlag(userArray[0]);
+                LOGGER.info("flag : {}", userFlag);
+                if(userFlag.equals("a")) {
 
-                return "redirect:/mypage";
+                    return "redirect:/admin?page=1&pageSize=5";
+                } else {
+                    return "redirect:/mypage";
+                }
             } else {
                 LOGGER.error("비밀번호를 확인해주세요.");
 

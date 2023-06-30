@@ -107,6 +107,11 @@
             <version>1.1.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
 <!--        regex -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

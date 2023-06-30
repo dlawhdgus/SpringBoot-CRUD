@@ -57,19 +57,17 @@ public class RegisterController {
             String duplicateId = userInfoRepo.SelectUserId(userInfoDto.getId());
             if (ChkEmpty.isEmpty(duplicateId)) {
                 boolean regex = phone_number.matches("\\d{2,3}\\d{3,4}\\d{4}$");
+                String encodedPassword = Crypto.encode(userInfoDto.getPassword());
+                char flag = 'u';
                 if(regex) {
                     String regexPhone_num = phone_number.replaceAll("(\\d{2,3})(\\d{3,4})(\\d{4})", "$1-$2-$3");
-                    LOGGER.info(regexPhone_num);
 
-                    String encodedPassword = Crypto.encode(userInfoDto.getPassword());
-                    char flag = 'u';
                     userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date, flag);
                     moreUserInfoRepo.InsertUserInfo(userInfoDto.getId(), email, regexPhone_num, address,date);
 
                     return "redirect:/login";
                 } else {
-                    String encodedPassword = Crypto.encode(userInfoDto.getPassword());
-                    char flag = 'u';
+
                     userInfoRepo.InsertUserInfo(userInfoDto.getId(), userInfoDto.getNickname(), encodedPassword, date, flag);
                     moreUserInfoRepo.InsertUserInfo(userInfoDto.getId(), email, phone_number, address,date);
 
