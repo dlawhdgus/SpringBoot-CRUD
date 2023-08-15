@@ -6,7 +6,6 @@ import com.example.springbootcrud.data.repository.MoreUserInfoRepository;
 import com.example.springbootcrud.data.repository.UserInfoRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import org.aspectj.lang.annotation.Around;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.example.springbootcrud.controller;
 
-import com.example.springbootcrud.Util.Crypto;
 import com.example.springbootcrud.Util.JwtDecode;
 import com.example.springbootcrud.config.JwtConfiguration;
 import com.example.springbootcrud.data.entity.MoreUserInfoEntity;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
